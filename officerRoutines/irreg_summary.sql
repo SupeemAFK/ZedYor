@@ -5,7 +5,7 @@
 -- in specific issues (e.g. an increase in prohibited items during certain months).
 -- Output includes Inspection Year, Inspection Month, Irregularity Type, and Total Incidents.
 
-CREATE OR REPLACE FUNCTION placeholder(
+CREATE OR REPLACE FUNCTION irregularities_summary(
     p_date_start date,
     p_date_end date
 )
@@ -34,4 +34,4 @@ GROUP BY
 ORDER BY "Inspection Year", "Inspection Month", ir.type;
 $$;
 
-SELECT * FROM placeholder('2026-03-22', '2026-03-25')
+SELECT * FROM irregularities_summary('2026-03-22', '2026-03-25')
