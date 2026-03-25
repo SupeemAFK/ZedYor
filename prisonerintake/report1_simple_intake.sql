@@ -30,5 +30,5 @@ and (p.code = prisoner_code or prisoner_code is null)
 order by pi.intake_date desc;
 $$;
 
---  records in 2024 (no specific prisoner)
-select * from list_prisoner_intakes('2024-01-01','2024-12-31', null);
+--  records in 2025 (no specific prisoner)
+select * from list_prisoner_intakes('2025-01-01','2025-12-31', null);
