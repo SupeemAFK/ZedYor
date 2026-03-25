@@ -1,10 +1,13 @@
 -- Author: Phurithip Paisanwaorajit 67070503437
 
 -- Analysis QUERY
--- Calculate total confiscated items per prisoner intake.
--- This helps identify which intake has the highest number of confiscated items.
+-- Filter by date and limit results using Top N
 
-create or replace function total_confiscated_items_per_intake()
+create or replace function total_confiscated_items_per_intake(
+    from_date date,
+    to_date date,
+    top_n int
+)
 returns table (
     "Intake ID" int,
     "Prisoner Code" text,
@@ -14,16 +17,20 @@ returns table (
 language sql stable as
 $$
 select 
-    pi.id as "Intake ID",
-    p.code as "Prisoner Code",
-    pi.intake_date as "Intake Date",
-    sum(ci.quantity) as "Total Items"
+    pi.id,
+    p.code,
+    pi.intake_date,
+    sum(ci.quantity) as total_items
 from confiscateditem ci
 join prisonerintake pi on ci.prisonerintake_id = pi.id
 join prisoner p on p.prison_intake_id = pi.id
+where pi.intake_date between from_date and to_date
 group by pi.id, p.code, pi.intake_date
-order by "Total Items" desc;
+-- order by highest total items first
+order by total_items desc
+--  limit results to top N (e.g. top 10)
+limit top_n;
 $$;
 
--- call function
-select * from total_confiscated_items_per_intake();
+-- get top 10 intakes in 2024
+select * from total_confiscated_items_per_intake('2024-01-01','2024-12-31', 10);

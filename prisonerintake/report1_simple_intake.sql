@@ -1,10 +1,13 @@
 -- Author: Phurithip Paisanwaorajit 67070503437
 
 -- Simple QUERY
--- List all prisoner intake records including prisoner code, full name,
--- intake date, and initial health status.
+-- Filter by date range and prisoner code
 
-create or replace function list_prisoner_intakes()
+create or replace function list_prisoner_intakes(
+    from_date date,
+    to_date date,
+    prisoner_code text
+)
 returns table (
     "Prisoner Code" text,
     "Prisoner Name" text,
@@ -14,15 +17,18 @@ returns table (
 language sql stable as
 $$
 select 
-    p.code as "Prisoner Code",
-    pe.first_name || ' ' || pe.last_name as "Prisoner Name",
-    pi.intake_date as "Intake Date",
-    pi.initial_health_status as "Initial Health Status"
+    p.code,
+    pe.first_name || ' ' || pe.last_name,
+    pi.intake_date,
+    pi.initial_health_status
 from prisoner p
 join person pe on p.person_id = pe.id
 join prisonerintake pi on p.prison_intake_id = pi.id
+where pi.intake_date between from_date and to_date
+-- show only specific prisoner if code is given
+and (p.code = prisoner_code or prisoner_code is null)
 order by pi.intake_date desc;
 $$;
 
--- call function
-select * from list_prisoner_intakes();
+--  records in 2024 (no specific prisoner)
+select * from list_prisoner_intakes('2024-01-01','2024-12-31', null);
