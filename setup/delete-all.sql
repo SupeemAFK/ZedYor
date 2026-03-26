@@ -57,8 +57,9 @@ DROP TYPE IF EXISTS severity_enum CASCADE;
 DROP TYPE IF EXISTS irregularity_type_enum CASCADE;
 DROP TYPE IF EXISTS rank_enum CASCADE;
 DROP TYPE IF EXISTS maintenance_skill_enum CASCADE;
-DROP TYPE IF EXISTS trade_enum CASCADE;
+DROP TYPE IF EXISTS specialization_enum CASCADE;
 DROP TYPE IF EXISTS routine_enum CASCADE;
 DROP TYPE IF EXISTS maint_status_enum CASCADE;
+DROP TYPE IF EXISTS visitor_relation_enum;
 
 -- Reset complete. You have a blank slate!
