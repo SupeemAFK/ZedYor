@@ -1,11 +1,11 @@
--- Report 3: Prisoner Visitation Support Analysis
+-- Report: Visitation Analysis per Prisoner
 -- by Suwiwat
 
 WITH visit_stats AS (
     SELECT
         v.prisoner_id,
         COUNT(*) AS total_completed_visits,
-        SUM(v.duration) AS total_visitation_duration,       
+        SUM(v.duration) AS total_visitation_duration,
         ROUND(AVG(v.duration), 2) AS avg_duration_per_visit
     FROM Visitment v
     WHERE v.status = 'completed'
@@ -21,6 +21,7 @@ visitor_stats AS (
     WHERE v.status = 'completed'
     GROUP BY v.prisoner_id
 )
+
 SELECT
     pr.code AS prisoner_code,
     pe.first_name AS prisoner_first_name,
