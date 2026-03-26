@@ -25,7 +25,7 @@ select p.code as "Prisoner Code",
            WHEN p.evaluation_score BETWEEN 40 AND 75 THEN 'Monitor closely'
            ELSE 'Standard Protocol'
        END as "Risk Alert",
-       CURRENT_DATE - pi.incident_datetime as "Days Ago"
+       EXTRACT(DAYS FROM (CURRENT_DATE - pi.incident_datetime)) as "Days Ago"
 from Prisoner p
 join InvolvedPrisoner ip on p.id = ip.prisoner_id
 join PrisonerIncidents pi on ip.prisoner_incicent_id = pi.id

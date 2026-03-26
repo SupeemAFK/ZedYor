@@ -19,7 +19,7 @@ $$
 select pi.id as "Incident ID",
        pi.incident_datetime as "Incident Datetime",
        pi.description as "Description",
-       CURRENT_DATE - pi.incident_datetime as "Days Since Incident",
+       EXTRACT(DAYS FROM (CURRENT_DATE - pi.incident_datetime)) as "Days Since Incident",
        pl.name as "Location Name",
        p.code as "Prisoner Code",
        pr.first_name as "Prisoner First Name",
